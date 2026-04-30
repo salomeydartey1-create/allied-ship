@@ -1,0 +1,86 @@
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Allied Shipping and Security Company</h1>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#about">About Us</a>
+    <a href="#services">Services</a>
+    <a href="#track">Track Shipment</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<section id="home">
+  <h2>Welcome</h2>
+  <p>We provide reliable shipping and secure cargo handling worldwide. With branches in the UK and US, we ensure your goods are transported safely and tracked in real time.</p>
+</section>
+
+<section id="about">
+  <h2>About Us</h2>
+  <p>Located in Swansea, UK, Allied Shipping and Security Company is committed to excellence in logistics and cargo security.</p>
+</section>
+
+<section id="services">
+  <h2>Our Services</h2>
+  <ul>
+    <li>International Shipping</li>
+    <li>Secure Logistics</li>
+    <li>Real-Time Tracking</li>
+  </ul>
+</section>
+
+<section id="track">
+  <h2>Track Your Shipment</h2>
+  <div class="tracking">
+    <label for="trackingNumber">Enter Tracking Number:</label>
+    <input type="text" id="trackingNumber" placeholder="e.g. AL123456789">
+    <button onclick="trackShipment()">Track</button>
+  </div>
+  <div id="map"></div>
+</section>
+
+<section id="contact">
+  <h2>Contact Us</h2>
+  <p>Email: alliedscpan78@gmail.com</p>
+  <p>UK Branch: +44 7418 602503</p>
+  <p>US Branch: +1 5869819839</p>
+</section>
+
+<footer>
+  <p>&copy; 2026 Allied Shipping and Security Company</p>
+</footer>
+
+<script>
+  function trackShipment() {
+    let trackingNumber = document.getElementById("trackingNumber").value;
+    if(trackingNumber) {
+      alert("Tracking shipment: " + trackingNumber);
+      // Example coordinates for demo (Swansea)
+      let lat = 51.6214;
+      let lng = -3.9436;
+      initMap(lat, lng);
+    } else {
+      alert("Please enter a tracking number.");
+    }
+  }
+
+  function initMap(lat, lng) {
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 6,
+      center: {lat: lat, lng: lng}
+    });
+    var marker = new google.maps.Marker({
+      position: {lat: lat, lng: lng},
+      map: map
+    });
+  }
+</script>
+
+<!-- Google Maps API (replace YOUR_API_KEY with your real key) -->
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
+
+</body>
+</html>

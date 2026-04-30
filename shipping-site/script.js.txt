@@ -1,0 +1,31 @@
+<script>
+  function trackShipment() {
+    let trackingNumber = document.getElementById("trackingNumber").value;
+    if(trackingNumber) {
+      alert("Tracking shipment: " + trackingNumber);
+      // Example coordinates for demo (Swansea)
+      let lat = 51.6214;
+      let lng = -3.9436;
+      initMap(lat, lng);
+    } else {
+      alert("Please enter a tracking number.");
+    }
+  }
+
+  function initMap(lat, lng) {
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 6,
+      center: {lat: lat, lng: lng}
+    });
+    var marker = new google.maps.Marker({
+      position: {lat: lat, lng: lng},
+      map: map
+    });
+  }
+</script>
+
+<!-- Google Maps API (replace YOUR_API_KEY with your real key) -->
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
+
+</body>
+</html>

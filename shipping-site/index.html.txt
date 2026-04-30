@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Allied Shipping and Security Company</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+    header { background: #003366; color: white; padding: 20px; text-align: center; }
+    nav a { color: white; margin: 0 15px; text-decoration: none; }
+    section { padding: 40px; }
+    footer { background: #003366; color: white; text-align: center; padding: 20px; }
+    .tracking { margin-top: 20px; }
+    input, button { padding: 10px; margin: 5px; }
+    #map { height: 400px; width: 100%; margin-top: 20px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Allied Shipping and Security Company</h1>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#about">About Us</a>
+    <a href="#services">Services</a>
+    <a href="#track">Track Shipment</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<section id="home">
+  <h2>Welcome</h2>
+  <p>We provide reliable shipping and secure cargo handling worldwide. With branches in the UK and US, we ensure your goods are transported safely and tracked in real time.</p>
+</section>
+
+<section id="about">
+  <h2>About Us</h2>
+  <p>Located in Swansea, UK, Allied Shipping and Security Company is committed to excellence in logistics and cargo security.</p>
+</section>
+
+<section id="services">
+  <h2>Our Services</h2>
+  <ul>
+    <li>International Shipping</li>
+    <li>Secure Logistics</li>
+    <li>Real-Time Tracking</li>
+  </ul>
+</section>
+
+<section id="track">
+  <h2>Track Your Shipment</h2>
+  <div class="tracking">
+    <label for="trackingNumber">Enter Tracking Number:</label>
+    <input type="text" id="trackingNumber" placeholder="e.g. AL123456789">
+    <button onclick="trackShipment()">Track</button>
+  </div>
+  <div id="map"></div>
+</section>
+
+<section id="contact">
+  <h2>Contact Us</h2>
+  <p>Email: alliedscpan78@gmail.com</p>
+  <p>UK Branch: +44 7418 602503</p>
+  <p>US Branch: +1 5869819839</p>
+</section>
+
+<footer>
+  <p>&copy; 2026 Allied Shipping and Security Company</p>
+</footer>
+
+<script>
+  function trackShipment() {
+    let trackingNumber = document.getElementById("trackingNumber").value;
+    if(trackingNumber) {
+      alert("Tracking shipment: " + trackingNumber);
+      // Example coordinates for demo (Swansea)
+      let lat = 51.6214;
+      let lng = -3.9436;
+      initMap(lat, lng);
+    } else {
+      alert("Please enter a tracking number.");
+    }
+  }
+
+  function initMap(lat, lng) {
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 6,
+      center: {lat: lat, lng: lng}
+    });
+    var marker = new google.maps.Marker({
+      position: {lat: lat, lng: lng},
+      map: map
+    });
+  }
+</script>
+
+<!-- Google Maps API (replace YOUR_API_KEY with your real key) -->
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=Y2ee0e7fcf545480ab4d771735bebff41"></script>
+
+</body>
+</html>
+
+<iframe 
+  src="https://www.google.com/maps/embed?pb=YOUR_EMBED_CODE" 
+  width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy">
+</iframe>
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d19814.99277309026!2d-3.9479968500000004!3d51.62551545!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x486e45555a4e97b1%3A0x3d77128e2fe7cb74!2sSwansea%2C%20UK!5e0!3m2!1sen!2sgh!4v1777480622073!5m2!1sen!2sgh" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+
+<div id="map" style="height:400px;"></div>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+<script>
+  // Centered on Swansea, UK
+  var map = L.map('map').setView([51.6214, -3.9436], 13);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+  }).addTo(map);
+</script>
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Aligned Shipping Tracker</title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <style>
+    #map { height: 400px; }
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    input { padding: 8px; margin-right: 5px; }
+    button { padding: 8px; }
+  </style>
+</head>
+<body>
+  <h2>Shipment Tracking System</h2>
+  <input type="text" id="trackingInput" placeholder="Enter tracking number">
+  <button onclick="trackShipment()">Track</button>
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    // Initialize map centered on Swansea
+    var map = L.map('map').setView([51.6214, -3.9436], 5);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    function trackShipment() {
+      const trackingNumber = document.getElementById("trackingInput").value;
+      let coords;
+
+      switch(trackingNumber) {
+        case "ALSC-TEST-001":
+          coords = [51.6214, -3.9436]; // Swansea
+          break;
+        case "ALSC-TEST-002":
+          coords = [51.5074, -0.1278]; // London
+          break;
+        case "ALSC-TEST-003":
+          coords = [40.7128, -74.0060]; // New York
+          break;
+        default:
+          alert("Tracking number not found");
+          return;
+      }
+
+      map.setView(coords, 10);
+      L.marker(coords).addTo(map).bindPopup("Shipment Location").openPopup();
+    }
+  </script>
+</body>
+</html>
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Aligned Shipping & Security</title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    #map { height: 400px; margin-top: 20px; }
+    input, select { padding: 8px; margin: 5px; }
+    button { padding: 8px; margin: 5px; }
+    .section { margin-bottom: 30px; }
+  </style>
+</head>
+<body>
+  <h1>Aligned Shipping & Security</h1>
+
+  <!-- Tracking Section -->
+  <div class="section">
+    <h2>Track Your Shipment</h2>
+    <input type="text" id="trackingInput" placeholder="Enter tracking number">
+    <button onclick="trackShipment()">Track</button>
+    <div id="map"></div>
+  </div>
+
+  <!-- Order Section -->
+  <div class="section">
+    <h2>Order Goods</h2>
+    <form id="orderForm" onsubmit="submitOrder(event)">
+      <label>Item:</label>
+      <select id="itemSelect">
+        <option value="Laptop">Laptop</option>
+        <option value="Phone">Phone</option>
+        <option value="Shoes">Shoes</option>
+      </select><br>
+      <label>Quantity:</label>
+      <input type="number" id="quantityInput" min="1" value="1"><br>
+      <button type="submit">Place Order</button>
+    </form>
+    <p id="orderResult"></p>
+  </div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    // Initialize map
+    var map = L.map('map').setView([51.6214, -3.9436], 5);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Tracking system
+    function trackShipment() {
+      const trackingNumber = document.getElementById("trackingInput").value;
+      let coords;
+
+      switch(trackingNumber) {
+        case "ALSC-TEST-001":
+          coords = [51.6214, -3.9436]; // Swansea
+          break;
+        case "ALSC-TEST-002":
+          coords = [51.5074, -0.1278]; // London
+          break;
+        case "ALSC-TEST-003":
+          coords = [40.7128, -74.0060]; // New York
+          break;
+        default:
+          alert("Tracking number not found");
+          return;
+      }
+
+      map.setView(coords, 10);
+      L.marker(coords).addTo(map).bindPopup("Shipment Location").openPopup();
+    }
+
+    // Order system
+    function submitOrder(event) {
+      event.preventDefault();
+      const item = document.getElementById("itemSelect").value;
+      const qty = document.getElementById("quantityInput").value;
+      document.getElementById("orderResult").innerText =
+        "Order placed: " + qty + " x " + item;
+    }
+  </script>
+</body>
+</html>
+
+
+<div id="map" style="height:400px;"></div>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+<script>
+  var map = L.map('map').setView([51.6214, -3.9436], 13); // Swansea
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+  }).addTo(map);
+</script>
+
+
+
+<form id="orderForm" onsubmit="submitOrder(event)">
+  <label>Item:</label>
+  <select id="itemSelect">
+    <option value="Laptop">Laptop</option>
+    <option value="Phone">Phone</option>
+    <option value="Shoes">Shoes</option>
+  </select><br>
+  <label>Quantity:</label>
+  <input type="number" id="quantityInput" min="1" value="1"><br>
+  <button type="submit">Place Order</button>
+</form>
+<p id="orderResult"></p>
+
+<script>
+  function submitOrder(event) {
+    event.preventDefault();
+    const item = document.getElementById("itemSelect").value;
+    const qty = document.getElementById("quantityInput").value;
+    document.getElementById("orderResult").innerText =
+      "Order placed: " + qty + " x " + item;
+  }
+</script>
+
