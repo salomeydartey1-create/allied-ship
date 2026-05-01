@@ -5,9 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Allied Shipping and Security Company</title>
 
-  <!-- Leaflet CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
-
   <style>
     body { font-family: Arial, sans-serif; margin: 0; }
     header { background: #003366; color: white; padding: 20px; text-align: center; }
@@ -80,51 +77,63 @@
   <p>&copy; 2026 Allied Shipping and Security Company</p>
 </footer>
 
-<!-- Leaflet JS -->
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
 <script>
-  var map = L.map('map').setView([20, 0], 2);
-
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap contributors'
-  }).addTo(map);
-
+  let map;
   let marker;
+
+  function initMap() {
+    // Default world view
+    map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 2,
+      center: { lat: 20, lng: 0 }
+    });
+  }
 
   function trackShipment() {
     const trackingNumber = document.getElementById("trackingInput").value.trim();
-    let coords;
-    let locationName;
+    let location;
 
     switch(trackingNumber) {
       case "ALSC-TEST-001":
-        coords = [51.6214, -3.9436];
-        locationName = "Swansea, UK";
+        location = { lat: 51.6214, lng: -3.9436, name: "Swansea, UK" };
         break;
       case "ALSC-TEST-002":
-        coords = [51.5074, -0.1278];
-        locationName = "London, UK";
+        location = { lat: 51.5074, lng: -0.1278, name: "London, UK" };
         break;
       case "ALSC-TEST-003":
-        coords = [40.7128, -74.0060];
-        locationName = "New York, USA";
+        location = { lat: 40.7128, lng: -74.0060, name: "New York, USA" };
         break;
       default:
         alert("Tracking number not found.");
         return;
     }
 
-    map.setView(coords, 8);
+    map.setCenter({ lat: location.lat, lng: location.lng });
+    map.setZoom(8);
 
+    // Remove old marker
     if (marker) {
-      map.removeLayer(marker);
+      marker.setMap(null);
     }
 
-    marker = L.marker(coords).addTo(map)
-      .bindPopup("Shipment location: " + locationName)
-      .openPopup();
+    // Add new marker
+    marker = new google.maps.Marker({
+      position: { lat: location.lat, lng: location.lng },
+      map: map,
+      title: location.name
+    });
+
+    const infoWindow = new google.maps.InfoWindow({
+      content: "Shipment location: " + location.name
+    });
+
+    infoWindow.open(map, marker);
   }
+</script>
+
+<!-- Google Maps API -->
+<script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
 </script>
 
 </body>
