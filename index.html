@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Allied Shipping and Security Company</title>
 
-  <!-- Leaflet CSS -->
+  <!-- Leaflet (No API key needed) -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 
   <style>
@@ -15,10 +15,28 @@
     section { padding: 40px; }
     footer { background: #003366; color: white; text-align: center; padding: 20px; }
 
-    .tracking { margin-top: 20px; }
     input, button { padding: 10px; margin: 5px; }
 
+    button {
+      background: #003366;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0055aa;
+    }
+
     #map { height: 400px; width: 100%; margin-top: 20px; }
+
+    ul { list-style: none; padding: 0; }
+    li {
+      background: #f4f4f4;
+      margin: 5px 0;
+      padding: 10px;
+      border-radius: 5px;
+    }
   </style>
 </head>
 <body>
@@ -30,6 +48,7 @@
     <a href="#about">About Us</a>
     <a href="#services">Services</a>
     <a href="#track">Track Shipment</a>
+    <a href="#products">Products</a>
     <a href="#contact">Contact</a>
   </nav>
 </header>
@@ -38,16 +57,13 @@
   <h2>Welcome</h2>
   <p>
     We provide reliable shipping and secure cargo handling worldwide.
-    With branches in the UK and US, we ensure your goods are transported
-    safely and tracked in real time.
   </p>
 </section>
 
 <section id="about">
   <h2>About Us</h2>
   <p>
-    Located in Swansea, UK, Allied Shipping and Security Company is committed
-    to excellence in logistics and cargo security.
+    Based in Swansea, UK, we deliver trusted logistics and cargo security services.
   </p>
 </section>
 
@@ -62,11 +78,21 @@
 
 <section id="track">
   <h2>Track Your Shipment</h2>
-  <div class="tracking">
-    <input type="text" id="trackingInput" placeholder="Enter tracking number (e.g. ALSC-TEST-001)">
-    <button onclick="trackShipment()">Track</button>
-  </div>
+
+  <input type="text" id="trackingInput" placeholder="Enter tracking number">
+  <button onclick="trackShipment()">Track</button>
+
   <div id="map"></div>
+</section>
+
+<section id="products">
+  <h2>Tech Products</h2>
+
+  <input type="text" id="productName" placeholder="Product name (e.g. Laptop)">
+  <input type="text" id="productPrice" placeholder="Price (e.g. 1200)">
+  <button onclick="addProduct()">Add Product</button>
+
+  <ul id="productList"></ul>
 </section>
 
 <section id="contact">
@@ -84,47 +110,70 @@
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <script>
-  var map = L.map('map').setView([20, 0], 2);
-
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap contributors'
-  }).addTo(map);
-
+  let map;
   let marker;
 
+  // Initialize map
+  function initMap() {
+    map = L.map('map').setView([20, 0], 2);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+  }
+
+  // Tracking function
   function trackShipment() {
     const trackingNumber = document.getElementById("trackingInput").value.trim();
-    let coords;
-    let locationName;
+    let location;
 
     switch(trackingNumber) {
       case "ALSC-TEST-001":
-        coords = [51.6214, -3.9436];
-        locationName = "Swansea, UK";
+        location = { lat: 51.6214, lng: -3.9436, name: "Swansea, UK" };
         break;
       case "ALSC-TEST-002":
-        coords = [51.5074, -0.1278];
-        locationName = "London, UK";
+        location = { lat: 51.5074, lng: -0.1278, name: "London, UK" };
         break;
       case "ALSC-TEST-003":
-        coords = [40.7128, -74.0060];
-        locationName = "New York, USA";
+        location = { lat: 40.7128, lng: -74.0060, name: "New York, USA" };
         break;
       default:
         alert("Tracking number not found.");
         return;
     }
 
-    map.setView(coords, 8);
+    map.setView([location.lat, location.lng], 8);
 
     if (marker) {
       map.removeLayer(marker);
     }
 
-    marker = L.marker(coords).addTo(map)
-      .bindPopup("Shipment location: " + locationName)
+    marker = L.marker([location.lat, location.lng])
+      .addTo(map)
+      .bindPopup("Shipment location: " + location.name)
       .openPopup();
   }
+
+  // Add product
+  function addProduct() {
+    const name = document.getElementById("productName").value;
+    const price = document.getElementById("productPrice").value;
+
+    if (!name || !price) {
+      alert("Enter product name and price");
+      return;
+    }
+
+    const li = document.createElement("li");
+    li.textContent = name + " - $" + price;
+
+    document.getElementById("productList").appendChild(li);
+
+    document.getElementById("productName").value = "";
+    document.getElementById("productPrice").value = "";
+  }
+
+  window.onload = initMap;
 </script>
 
 </body>
