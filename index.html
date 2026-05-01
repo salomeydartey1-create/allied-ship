@@ -9,23 +9,18 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; margin: 0; }
     header { background: #003366; color: white; padding: 20px; text-align: center; }
-    nav a { color: white; margin: 0 15px; text-decoration: none; }
+    nav a { color: white; margin: 0 10px; text-decoration: none; }
     section { padding: 40px; }
     footer { background: #003366; color: white; text-align: center; padding: 20px; }
 
     .tracking { margin-top: 20px; }
     input, button { padding: 10px; margin: 5px; }
 
-    #map {
-      height: 400px;
-      width: 100%;
-      margin-top: 20px;
-    }
+    #map { height: 400px; width: 100%; margin-top: 20px; }
   </style>
 </head>
-
 <body>
 
 <header>
@@ -41,12 +36,19 @@
 
 <section id="home">
   <h2>Welcome</h2>
-  <p>We provide reliable shipping and secure cargo handling worldwide. With branches in the UK and US, we ensure your goods are transported safely and tracked in real time.</p>
+  <p>
+    We provide reliable shipping and secure cargo handling worldwide.
+    With branches in the UK and US, we ensure your goods are transported
+    safely and tracked in real time.
+  </p>
 </section>
 
 <section id="about">
   <h2>About Us</h2>
-  <p>Located in Swansea, UK, Allied Shipping and Security Company is committed to excellence in logistics and cargo security.</p>
+  <p>
+    Located in Swansea, UK, Allied Shipping and Security Company is committed
+    to excellence in logistics and cargo security.
+  </p>
 </section>
 
 <section id="services">
@@ -60,12 +62,10 @@
 
 <section id="track">
   <h2>Track Your Shipment</h2>
-
   <div class="tracking">
     <input type="text" id="trackingInput" placeholder="Enter tracking number (e.g. ALSC-TEST-001)">
     <button onclick="trackShipment()">Track</button>
   </div>
-
   <div id="map"></div>
 </section>
 
@@ -73,7 +73,7 @@
   <h2>Contact Us</h2>
   <p>Email: alliedscpan78@gmail.com</p>
   <p>UK Branch: +44 7418 602503</p>
-  <p>US Branch: +1 5869819839</p>
+  <p>US Branch: +1 586 981 9839</p>
 </section>
 
 <footer>
@@ -84,15 +84,13 @@
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <script>
-  // Initialize map
   var map = L.map('map').setView([20, 0], 2);
 
-  // Tile layer
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap contributors'
   }).addTo(map);
 
-  var marker;
+  let marker;
 
   function trackShipment() {
     const trackingNumber = document.getElementById("trackingInput").value.trim();
@@ -113,22 +111,18 @@
         locationName = "New York, USA";
         break;
       default:
-        alert("Tracking number not found");
+        alert("Tracking number not found.");
         return;
     }
 
-    // Remove old marker
+    map.setView(coords, 8);
+
     if (marker) {
       map.removeLayer(marker);
     }
 
-    // Set new view
-    map.setView(coords, 10);
-
-    // Add marker
-    marker = L.marker(coords)
-      .addTo(map)
-      .bindPopup("Shipment Location: " + locationName)
+    marker = L.marker(coords).addTo(map)
+      .bindPopup("Shipment location: " + locationName)
       .openPopup();
   }
 </script>
