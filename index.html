@@ -5,40 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Allied Shipping and Security Company</title>
 
-  <!-- Leaflet (No API key needed) -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
-
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; }
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
     header { background: #003366; color: white; padding: 20px; text-align: center; }
-    nav a { color: white; margin: 0 10px; text-decoration: none; }
+    nav a { color: white; margin: 0 15px; text-decoration: none; }
     section { padding: 40px; }
     footer { background: #003366; color: white; text-align: center; padding: 20px; }
-
+    .tracking { margin-top: 20px; }
     input, button { padding: 10px; margin: 5px; }
-
-    button {
-      background: #003366;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #0055aa;
-    }
-
     #map { height: 400px; width: 100%; margin-top: 20px; }
-
-    ul { list-style: none; padding: 0; }
-    li {
-      background: #f4f4f4;
-      margin: 5px 0;
-      padding: 10px;
-      border-radius: 5px;
-    }
+    #leafletMap { height: 400px; width: 100%; margin-top: 20px; }
   </style>
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 </head>
+
 <body>
 
 <header>
@@ -48,23 +30,18 @@
     <a href="#about">About Us</a>
     <a href="#services">Services</a>
     <a href="#track">Track Shipment</a>
-    <a href="#products">Products</a>
     <a href="#contact">Contact</a>
   </nav>
 </header>
 
 <section id="home">
   <h2>Welcome</h2>
-  <p>
-    We provide reliable shipping and secure cargo handling worldwide.
-  </p>
+  <p>We provide reliable shipping and secure cargo handling worldwide. With branches in the UK and US, we ensure your goods are transported safely and tracked in real time.</p>
 </section>
 
 <section id="about">
   <h2>About Us</h2>
-  <p>
-    Based in Swansea, UK, we deliver trusted logistics and cargo security services.
-  </p>
+  <p>Located in Swansea, UK, Allied Shipping and Security Company is committed to excellence in logistics and cargo security.</p>
 </section>
 
 <section id="services">
@@ -79,101 +56,84 @@
 <section id="track">
   <h2>Track Your Shipment</h2>
 
-  <input type="text" id="trackingInput" placeholder="Enter tracking number">
-  <button onclick="trackShipment()">Track</button>
+  <div class="tracking">
+    <label for="trackingNumber">Enter Tracking Number:</label>
+    <input type="text" id="trackingNumber" placeholder="e.g. AL123456789">
+    <button onclick="trackShipment()">Track</button>
+  </div>
 
+  <!-- Google Map -->
   <div id="map"></div>
-</section>
 
-<section id="products">
-  <h2>Tech Products</h2>
+  <!-- Embedded Maps -->
+  <iframe
+    src="https://www.google.com/maps/embed?pb=YOUR_EMBED_CODE"
+    width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy">
+  </iframe>
 
-  <input type="text" id="productName" placeholder="Product name (e.g. Laptop)">
-  <input type="text" id="productPrice" placeholder="Price (e.g. 1200)">
-  <button onclick="addProduct()">Add Product</button>
+  <iframe 
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d19814.99277309026!2d-3.9479968500000004!3d51.62551545!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x486e45555a4e97b1%3A0x3d77128e2fe7cb74!2sSwansea%2C%20UK!5e0!3m2!1sen!2sgh!4v1777480622073!5m2!1sen!2sgh"
+    width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy">
+  </iframe>
 
-  <ul id="productList"></ul>
+  <!-- Leaflet Map -->
+  <div id="leafletMap"></div>
 </section>
 
 <section id="contact">
   <h2>Contact Us</h2>
   <p>Email: alliedscpan78@gmail.com</p>
   <p>UK Branch: +44 7418 602503</p>
-  <p>US Branch: +1 586 981 9839</p>
+  <p>US Branch: +1 5869819839</p>
 </section>
 
 <footer>
   <p>&copy; 2026 Allied Shipping and Security Company</p>
 </footer>
 
+<!-- Google Maps API -->
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=Y2ee0e7fcf545480ab4d771735bebff41"></script>
+
+<script>
+  function trackShipment() {
+    let trackingNumber = document.getElementById("trackingNumber").value;
+
+    if(trackingNumber) {
+      alert("Tracking shipment: " + trackingNumber);
+
+      let lat = 51.6214;
+      let lng = -3.9436;
+
+      initMap(lat, lng);
+
+    } else {
+      alert("Please enter a tracking number.");
+    }
+  }
+
+  function initMap(lat, lng) {
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 6,
+      center: {lat: lat, lng: lng}
+    });
+
+    var marker = new google.maps.Marker({
+      position: {lat: lat, lng: lng},
+      map: map
+    });
+  }
+</script>
+
 <!-- Leaflet JS -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <script>
-  let map;
-  let marker;
+  // Leaflet map (separate container)
+  var map2 = L.map('leafletMap').setView([51.6214, -3.9436], 13);
 
-  // Initialize map
-  function initMap() {
-    map = L.map('map').setView([20, 0], 2);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
-  }
-
-  // Tracking function
-  function trackShipment() {
-    const trackingNumber = document.getElementById("trackingInput").value.trim();
-    let location;
-
-    switch(trackingNumber) {
-      case "ALSC-TEST-001":
-        location = { lat: 51.6214, lng: -3.9436, name: "Swansea, UK" };
-        break;
-      case "ALSC-TEST-002":
-        location = { lat: 51.5074, lng: -0.1278, name: "London, UK" };
-        break;
-      case "ALSC-TEST-003":
-        location = { lat: 40.7128, lng: -74.0060, name: "New York, USA" };
-        break;
-      default:
-        alert("Tracking number not found.");
-        return;
-    }
-
-    map.setView([location.lat, location.lng], 8);
-
-    if (marker) {
-      map.removeLayer(marker);
-    }
-
-    marker = L.marker([location.lat, location.lng])
-      .addTo(map)
-      .bindPopup("Shipment location: " + location.name)
-      .openPopup();
-  }
-
-  // Add product
-  function addProduct() {
-    const name = document.getElementById("productName").value;
-    const price = document.getElementById("productPrice").value;
-
-    if (!name || !price) {
-      alert("Enter product name and price");
-      return;
-    }
-
-    const li = document.createElement("li");
-    li.textContent = name + " - $" + price;
-
-    document.getElementById("productList").appendChild(li);
-
-    document.getElementById("productName").value = "";
-    document.getElementById("productPrice").value = "";
-  }
-
-  window.onload = initMap;
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+  }).addTo(map2);
 </script>
 
 </body>
